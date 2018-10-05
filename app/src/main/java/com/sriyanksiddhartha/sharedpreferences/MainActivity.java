@@ -3,9 +3,11 @@ package com.sriyanksiddhartha.sharedpreferences;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -37,9 +39,29 @@ public class MainActivity extends AppCompatActivity {
 
 		pageLayout = (LinearLayout) findViewById(R.id.pageLayout);
 		pageColorSwitch = (Switch) findViewById(R.id.pageColorSwitch);
+
+		pageColorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setPageColor(isChecked);
+
+            }
+        });
+		//Retrieve the value from activity level shared preferences
+		SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+		boolean isChecked = sharedPreferences.getBoolean("green",false);
+		pageColorSwitch.setChecked(isChecked);
 	}
 
-	public void saveAccountData(View view) {
+    private void setPageColor(boolean isChecked) { //Save data in Activity level shared Preferences
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putBoolean("green",(isChecked));
+        editor.apply();
+        pageLayout.setBackgroundColor(isChecked? Color.GREEN : Color.WHITE);
+    }
+
+    public void saveAccountData(View view) {
 		//It simply returns the reference to the shared Preference object that points to the shared Preference file.
           SharedPreferences sharedPreferences = getSharedPreferences(getPackageName()+Constants.PREF_FILE_NAME,Context.MODE_PRIVATE);
           SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -50,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
           //So we have inserted data in sharedPreferences file
 	}
 
-	public void loadAccountData(View view) {
+	public void loadAccountData(View view) {// Application level
 	    //Syntax to retrieve data from sharedPreference file
         SharedPreferences sharedPreferences = getSharedPreferences(getPackageName()+Constants.PREF_FILE_NAME,Context.MODE_PRIVATE);
          String name = sharedPreferences.getString(Constants.KEY_NAME,"N/A");
