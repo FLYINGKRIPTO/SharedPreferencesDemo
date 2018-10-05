@@ -40,21 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
 	public void saveAccountData(View view) {
 		//It simply returns the reference to the shared Preference object that points to the shared Preference file.
-          SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+          SharedPreferences sharedPreferences = getSharedPreferences(getPackageName()+Constants.PREF_FILE_NAME,Context.MODE_PRIVATE);
           SharedPreferences.Editor editor = sharedPreferences.edit();
-          editor.putString("name",etName.getText().toString());
-          editor.putString("profession",etProfession.getText().toString());
-          editor.putInt("professionid",287);
+          editor.putString(Constants.KEY_NAME,etName.getText().toString());
+          editor.putString(Constants.KEY_PROFESSION,etProfession.getText().toString());
+          editor.putInt(Constants.KEY_PROF_ID,287);
           editor.apply();
           //So we have inserted data in sharedPreferences file
 	}
 
 	public void loadAccountData(View view) {
 	    //Syntax to retrieve data from sharedPreference file
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-         String name = sharedPreferences.getString("name","N/A");
-         String profession = sharedPreferences.getString("profession","N/A");
-         int professionID = sharedPreferences.getInt("professionid",0);
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName()+Constants.PREF_FILE_NAME,Context.MODE_PRIVATE);
+         String name = sharedPreferences.getString(Constants.KEY_NAME,"N/A");
+         String profession = sharedPreferences.getString(Constants.KEY_PROFESSION,"N/A");
+         int professionID = sharedPreferences.getInt(Constants.KEY_PROF_ID,0);
          txvName.setText(name);
          String profStr = profession + " - "+ professionID;
          txvProfession.setText(profStr);
