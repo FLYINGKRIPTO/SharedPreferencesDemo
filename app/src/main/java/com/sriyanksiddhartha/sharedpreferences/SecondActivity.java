@@ -1,5 +1,7 @@
 package com.sriyanksiddhartha.sharedpreferences;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,13 @@ public class SecondActivity extends AppCompatActivity {
 	}
 
 	public void loadAccountData(View view) {
+		SharedPreferences sharedPreferences = getSharedPreferences(getPackageName()+Constants.PREF_FILE_NAME, Context.MODE_PRIVATE);
+		String name = sharedPreferences.getString(Constants.KEY_NAME,"N/A");
+		String profession = sharedPreferences.getString(Constants.KEY_PROFESSION,"N/A");
+		int professionID = sharedPreferences.getInt(Constants.KEY_PROF_ID,0);
+		txvName.setText(name);
+		String profStr = profession + " - "+ professionID;
+		txvProfession.setText(profStr);
 
 	}
 
